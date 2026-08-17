@@ -1,126 +1,92 @@
-import { useRef, useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function UploadSection() {
-  const [files, setFiles] = useState([]);
-  const [dragActive, setDragActive] = useState(false);
+    const navigate = useNavigate();
 
-  const inputRef = useRef(null);
+    const handleFiles = (selectedFiles) => {
+        const pdfFiles = Array.from(selectedFiles).filter(
+            (file) =>
+                file.type === "application/pdf" ||
+                file.name.toLowerCase().endsWith(".pdf")
+        );
 
-  const handleFiles = (selectedFiles) => {
-    const pdfFiles = Array.from(selectedFiles).filter(
-      (file) => file.type === "application/pdf"
-    );
+        if (pdfFiles.length === 0) {
+            alert("Please select PDF files only.");
+            return;
+        }
 
-    setFiles((prev) => [...prev, ...pdfFiles]);
-  };
+        // Go to Jobs and carry the selected files
+        navigate("/jobs", {
+            state: {
+                files: pdfFiles
+            }
+        });
+    };
 
-  const handleChange = (e) => {
-    handleFiles(e.target.files);
-  };
+    const handleFileChange = (e) => {
+        handleFiles(e.target.files);
+    };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragActive(false);
+    const handleDrop = (e) => {
+        e.preventDefault();
+        handleFiles(e.dataTransfer.files);
+    };
 
-    if (e.dataTransfer.files) {
-      handleFiles(e.dataTransfer.files);
-    }
-  };
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
 
-  const removeFile = (index) => {
-    setFiles(files.filter((_, i) => i !== index));
-  };
+    return (
+        <div className="container my-5">
 
-  return (
-    <div className="mt-4">
-      <div
-        className={`upload-box ${dragActive ? "border-success bg-light" : ""}`}
-        onClick={() => inputRef.current.click()}
-        onDragEnter={(e) => {
-          e.preventDefault();
-          setDragActive(true);
-        }}
-        onDragLeave={(e) => {
-          e.preventDefault();
-          setDragActive(false);
-        }}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDrop}
-      >
-        <i className="fas fa-cloud-upload-alt fa-4x text-primary mb-3"></i>
+            <div
+                className="card shadow-lg p-5 text-center"
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                style={{
+                    border: "3px dashed #0d6efd",
+                    borderRadius: "25px",
+                    minHeight: "400px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer"
+                }}
+            >
 
-        <h3 className="fw-bold">Drag & Drop PDF Resumes</h3>
-
-        <p className="text-muted">
-          or click here to browse
-        </p>
-
-        <button
-          type="button"
-          className="btn btn-primary px-4"
-        >
-          Choose PDF Files
-        </button>
-
-        <input
-          type="file"
-          hidden
-          multiple
-          accept=".pdf"
-          ref={inputRef}
-          onChange={handleChange}
-        />
-      </div>
-
-      {files.length > 0 && (
-        <>
-          <h4 className="mt-4 mb-3 fw-bold">
-            Selected Resumes
-          </h4>
-
-          <div className="list-group">
-
-            {files.map((file, index) => (
-
-              <div
-                key={index}
-                className="list-group-item file-item d-flex justify-content-between align-items-center"
-              >
                 <div>
-                  <i className="fas fa-file-pdf text-danger me-2"></i>
 
-                  <strong>{file.name}</strong>
+                    <div style={{ fontSize: "70px" }}>
+                        ☁️
+                    </div>
 
-                  <br />
+                    <h2 className="fw-bold mt-3">
+                        Drag & Drop PDF Resumes
+                    </h2>
 
-                  <small className="text-muted">
-                    {(file.size / 1024).toFixed(1)} KB
-                  </small>
+                    <p className="text-muted fs-5">
+                        or click here to browse
+                    </p>
+
+                    <label className="btn btn-primary btn-lg px-4">
+                        📄 Choose PDF Files
+
+                        <input
+                            type="file"
+                            accept=".pdf,application/pdf"
+                            multiple
+                            hidden
+                            onChange={handleFileChange}
+                        />
+                    </label>
+
                 </div>
 
-                <button
-                  className="btn btn-outline-danger btn-sm"
-                  onClick={() => removeFile(index)}
-                >
-                  <i className="fas fa-times"></i>
-                </button>
+            </div>
 
-              </div>
-
-            ))}
-
-          </div>
-
-          <button
-            className="btn btn-success analyze-btn w-100 mt-4"
-          >
-            <i className="fas fa-search me-2"></i>
-            Analyze Resumes
-          </button>
-        </>
-      )}
-    </div>
-  );
+        </div>
+    );
 }
 
 export default UploadSection;

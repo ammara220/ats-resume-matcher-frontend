@@ -1,11 +1,30 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
-    <nav className="navbar navbar-dark bg-primary shadow">
+    <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
       <div className="container">
-        <span className="navbar-brand fw-bold fs-4">
-          <i className="fas fa-file-circle-check me-2"></i>
+        <Link className="navbar-brand fw-bold" to="/">
           ATS Resume Matcher
-        </span>
+        </Link>
+
+        <div className="navbar-nav ms-auto">
+          <Link className="nav-link" to="/">
+            Home
+          </Link>
+
+          <Link className="nav-link" to="/jobs">
+            Jobs
+          </Link>
+
+          <Link className="nav-link" to="/create-job">
+            Create Job
+          </Link>
+
+          <Link className="nav-link" to="/dashboard">
+            Dashboard
+          </Link>
+        </div>
       </div>
     </nav>
   );
