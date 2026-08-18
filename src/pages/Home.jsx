@@ -5,46 +5,54 @@ import UploadSection from "../components/UploadSection";
 import { Link } from "react-router-dom";
 
 function Home() {
-  return (
-    <>
-      <Navbar />
+    return (
+        <>
+            <Navbar />
 
-      <div className="d-flex justify-content-center gap-3 my-4 flex-wrap">
+            {/* Buttons */}
+            <div className="container">
+                <div className="d-flex justify-content-center gap-3 my-4 flex-wrap">
 
-        <Link 
-          to="/jobs" 
-          className="btn btn-primary btn-lg px-4"
-        >
-          <i className="fas fa-briefcase me-2"></i>
-          View Jobs
-        </Link>
+                    <Link
+                        to="/jobs"
+                        className="btn btn-primary btn-lg px-4"
+                    >
+                        <i className="fas fa-briefcase me-2"></i>
+                        View Jobs
+                    </Link>
 
+                    <Link
+                        to="/create-job"
+                        className="btn btn-success btn-lg px-4"
+                    >
+                        <i className="fas fa-plus me-2"></i>
+                        Create Job
+                    </Link>
 
-        <Link 
-          to="/create-job" 
-          className="btn btn-success btn-lg px-4"
-        >
-          <i className="fas fa-plus me-2"></i>
-          Create Job
-        </Link>
+                </div>
+            </div>
 
-      </div>
+            <hr />
 
+            {/* Features */}
+            <div className="container">
+                <Features />
+            </div>
 
-      <hr />
+            <hr />
 
-      <Features />
+            {/* Instructions */}
+            <div className="container">
+                <Instructions />
+            </div>
 
-      <hr />
+            <hr />
 
-      <Instructions />
+            {/* Upload Section */}
+            <UploadSection />
 
-      <hr />
-
-      <UploadSection />
-
-    </>
-  );
+        </>
+    );
 }
 
 export default Home;
