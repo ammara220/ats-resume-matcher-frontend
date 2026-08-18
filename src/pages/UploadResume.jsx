@@ -107,9 +107,7 @@ const [files, setFiles] = useState(
                 formData.append("resume", file);
             });
 
-            const response = await fetch(
-                `http://127.0.0.1:5005/api/analyze/${jobId}`,
-                {
+            const response = await fetch(`https://flaskapp-caaa.onrender.com/api/analyze/${jobId}`, {
                     method: "POST",
                     body: formData
                 }

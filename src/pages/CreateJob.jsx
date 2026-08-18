@@ -20,8 +20,7 @@ function CreateJob() {
         e.preventDefault();
 
         try {
-            const response = await fetch(
-                "http://127.0.0.1:5005/api/jobs",
+            const response = await fetch("https://flaskapp-caaa.onrender.com/api/jobs", 
                 {
                     method: "POST",
                     headers: {
